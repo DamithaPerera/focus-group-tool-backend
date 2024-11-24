@@ -5,11 +5,11 @@ import { Participant } from './src/modules/room/participant.entity';
 
 export default new DataSource({
   type: 'postgres',
-  host: 'db.wrijjauspcqeijrmxqwl.supabase.co',
-  port: 5432,
-  username: 'postgres',
-  password: 'damitha123perera', // Use raw password here
-  database: 'postgres',
+  host: process.env.SUPABASE_HOST,
+  port: process.env.SUPABASE_PORT,
+  username: process.env.SUPABASE_DB_USER,
+  password: process.env.SUPABASE_DB_PASSWORD,
+  database: process.env.SUPABASE_DB_NAME,
   entities: [User, Room, Participant],
   migrations: [__dirname + '/src/migrations/*{.ts,.js}'],
   synchronize: false,
