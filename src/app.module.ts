@@ -7,15 +7,15 @@ import { User } from './modules/auth/user.entity';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }), // Load .env variables
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        url: configService.get('SUPABASE_DB_URL'), // Use full connection string
+        url: configService.get('SUPABASE_DB_URL'),
         entities: [User, Room, Participant],
-        synchronize: false, // Disable auto-sync in production
+        synchronize: false,
         logging: true,
       }),
     }),
