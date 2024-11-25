@@ -4,6 +4,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Room } from './modules/room/room.entity';
 import { Participant } from './modules/room/participant.entity';
 import { User } from './modules/auth/user.entity';
+import { LiveKitModule } from './livekit/livekit.module';
+import { RoomModule } from './modules/room/room.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -19,6 +22,9 @@ import { User } from './modules/auth/user.entity';
         logging: true,
       }),
     }),
+    AuthModule,
+    RoomModule,
+    LiveKitModule
   ],
 })
 export class AppModule {}
