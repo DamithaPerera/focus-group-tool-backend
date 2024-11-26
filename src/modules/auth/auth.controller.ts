@@ -9,14 +9,14 @@ export class AuthController {
     private readonly supabaseService: SupabaseService,  // Inject SupabaseService here
   ) {}
 
-  @Get('google')
-  async googleOAuth(@Req() req: any, @Res() res: any) {
-    const { error } = await this.supabaseService.signInWithOAuth('google');
-    if (error) {
-      return res.status(400).json({ error: error.message });
-    }
-    return res.redirect(`${process.env.FRONTEND_URL}/login`);
-  }
+  // @Get('google')
+  // async googleOAuth(@Req() req: any, @Res() res: any) {
+  //   const { error } = await this.supabaseService.signInWithOAuth('google');
+  //   if (error) {
+  //     return res.status(400).json({ error: error.message });
+  //   }
+  //   return res.redirect(`${process.env.FRONTEND_URL}/login`);
+  // }
 
   @Get('me')
   async getCurrentUser(@Req() req: any) {

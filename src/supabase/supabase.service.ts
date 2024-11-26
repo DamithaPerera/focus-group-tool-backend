@@ -1,9 +1,10 @@
+// src/modules/supabase/supabase.service.ts
 import { Injectable } from '@nestjs/common';
 import { createClient } from '@supabase/supabase-js';
 
 @Injectable()
 export class SupabaseService {
-  private supabase;
+  private readonly supabase;
 
   constructor() {
     this.supabase = createClient(
@@ -12,17 +13,34 @@ export class SupabaseService {
     );
   }
 
-  // Sign in with Google OAuth
-  async signInWithOAuth(provider: string) {
-    return this.supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${process.env.FRONTEND_URL}/login`,  // Set your frontend redirect URL here
-      },
-    });
+  // Fetch user by ID from Supabase's auth.users table
+  async getUserById(userId: string) {
+    const { data, error } = await this.supabase
+      .from('auth.users')
+      .select('*')
+      .eq('id', userId)
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
   }
 
-  // Get user info from the session
+  // Method to insert user data into public.users table (custom user info)
+  async createUser(userId: string, role: string) {
+    const { data, error } = await this.supabase
+      .from('public.users')
+      .insert([
+        { user_id: userId, role: role },  // Store the user role or other custom data
+      ]);
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+
   async getUser() {
     const { data: user, error } = await this.supabase.auth.getUser();
     if (error) throw error;
