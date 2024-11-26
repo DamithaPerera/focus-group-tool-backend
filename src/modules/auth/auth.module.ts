@@ -1,18 +1,14 @@
 import { Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
-import { GoogleStrategy } from './google.strategy';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './user.entity';
+import { AuthController } from './auth.controller';
+import { SupabaseModule } from '../../supabase/supabase.module';
 
 @Module({
-  imports: [
-    PassportModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1h' },
-    }),
-  ],
-  providers: [AuthService, GoogleStrategy],
+  imports: [TypeOrmModule.forFeature([User]), SupabaseModule],
+  controllers: [AuthController],
+  providers: [AuthService],
   exports: [AuthService],
 })
 export class AuthModule {}

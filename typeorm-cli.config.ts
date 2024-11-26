@@ -5,7 +5,7 @@ import { Participant } from './src/modules/room/participant.entity';
 
 export default new DataSource({
   type: 'postgres',
-  host: process.env.SUPABASE_HOST,
+  host: 'db.wrijjauspcqeijrmxqwl.supabase.co',
   port: 5432,
   username: process.env.SUPABASE_DB_USER,
   password: process.env.SUPABASE_DB_PASSWORD,

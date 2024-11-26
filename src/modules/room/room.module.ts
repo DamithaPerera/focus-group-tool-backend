@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { RoomService } from './room.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { RoomController } from './room.controller';
-import { SupabaseModule } from '../../supabase/supabase.module';
-import { LiveKitModule } from '../../livekit/livekit.module';
+import { RoomService } from './room.service';
+import { Room } from './room.entity';
+import { Participant } from './participant.entity';
 
 @Module({
-  imports: [SupabaseModule, LiveKitModule],
+  imports: [TypeOrmModule.forFeature([Room, Participant])],
   controllers: [RoomController],
   providers: [RoomService],
 })
