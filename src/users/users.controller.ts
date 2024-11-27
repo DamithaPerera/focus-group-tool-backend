@@ -1,3 +1,4 @@
+// src/users/users.controller.ts
 import { Controller, Get, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 
@@ -5,9 +6,12 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // Endpoint to find user by email
-  @Get(':email')
-  async findByEmail(@Param('email') email: string) {
-    return this.usersService.findByEmail(email);
+  @Get(':id')
+  async getUserById(@Param('id') id: string) {
+    const user = await this.usersService.findById(id);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
   }
 }
