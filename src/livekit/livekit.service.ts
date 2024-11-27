@@ -44,4 +44,47 @@ export class LivekitService {
       maxParticipants: 50, // Maximum number of participants in the room
     });
   }
+
+  // Mute participant in the room (Prevent publishing)
+  async muteParticipant(roomName: string, identity: string): Promise<void> {
+    try {
+      // Mute participant by updating their publish permission
+      await this.roomService.updateParticipant(roomName, identity, 'false'); // Disallow publishing audio/video
+    } catch (error) {
+      console.error('Error muting participant:', error);
+      throw new Error('Error muting participant');
+    }
+  }
+
+  // Unmute participant in the room (Allow publishing)
+  async unmuteParticipant(roomName: string, identity: string): Promise<void> {
+    try {
+      // Unmute participant by allowing them to publish audio/video
+      await this.roomService.updateParticipant(roomName, identity, 'true'); // Allow publishing audio/video
+    } catch (error) {
+      console.error('Error unmuting participant:', error);
+      throw new Error('Error unmuting participant');
+    }
+  }
+
+  // Remove a participant from the room
+  async removeParticipant(roomName: string, identity: string): Promise<void> {
+    try {
+      await this.roomService.removeParticipant(roomName, identity);
+    } catch (error) {
+      console.error('Error removing participant:', error);
+      throw new Error('Error removing participant');
+    }
+  }
+
+  // Get active participants in a room
+  async getParticipants(roomName: string): Promise<any> {
+    try {
+      const participants = await this.roomService.listParticipants(roomName);
+      return participants;
+    } catch (error) {
+      console.error('Error getting participants:', error);
+      throw new Error('Error fetching participants');
+    }
+  }
 }
